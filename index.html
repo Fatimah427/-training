@@ -3,15 +3,167 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+  
+    <title>Login Page</title>
 
+    <style>
+        *{
+            margin:0;
+            padding:0;
+            box-sizing:border-box;
+            font-family:Arial, sans-serif;
+        }
 
+        body{
+            display:flex;
+            justify-content:center;
+            align-items:center;
+            height:100vh;
+            background:linear-gradient(135deg,#4facfe,#00f2fe);
+        }
+
+        .container{
+            background:white;
+            padding:30px;
+            border-radius:15px;
+            width:350px;
+            box-shadow:0 5px 15px rgba(0,0,0,0.2);
+        }
+
+        h2{
+            text-align:center;
+            margin-bottom:20px;
+        }
+
+        .input-group{
+            margin-bottom:15px;
+        }
+
+        .input-group input{
+            width:100%;
+            padding:12px;
+            border:1px solid #ccc;
+            border-radius:8px;
+        }
+
+        .password-container{
+            position:relative;
+        }
+
+        .show-btn{
+            position:absolute;
+            right:10px;
+            top:50%;
+            transform:translateY(-50%);
+            cursor:pointer;
+            color:#555;
+        }
+
+        .remember{
+            display:flex;
+            align-items:center;
+            gap:5px;
+            margin-bottom:15px;
+        }
+
+        button{
+            width:100%;
+            padding:12px;
+            border:none;
+            background:#4facfe;
+            color:white;
+            border-radius:8px;
+            font-size:16px;
+            cursor:pointer;
+        }
+
+        button:hover{
+            background:#2d8cf0;
+        }
+
+        #message{
+            text-align:center;
+            margin-top:15px;
+            font-weight:bold;
+        }
+    </style>
 </head>
 <body>
-    <h1> welcom </h1>
-    <h2>Login Page</h2>
-    <h3> elllllm </h3>
-    
+
+<div class="container">
+    <h2>Login</h2>
+
+    <div class="input-group">
+        <input type="email" id="email" placeholder="Enter Email">
+    </div>
+
+    <div class="input-group password-container">
+        <input type="password" id="password" placeholder="Enter Password">
+        <span class="show-btn" onclick="togglePassword()">👁</span>
+    </div>
+
+    <div class="remember">
+        <input type="checkbox" id="remember">
+        <label for="remember">Remember Me</label>
+    </div>
+
+    <button onclick="login()">Login</button>
+
+    <p id="message"></p>
+</div>
+
+<script>
+
+    window.onload = function(){
+        const savedEmail = localStorage.getItem("email");
+
+        if(savedEmail){
+            document.getElementById("email").value = savedEmail;
+            document.getElementById("remember").checked = true;
+        }
+    }
+
+    function togglePassword(){
+        const password = document.getElementById("password");
+
+        if(password.type === "password"){
+            password.type = "text";
+        }else{
+            password.type = "password";
+        }
+    }
+
+    function login(){
+
+        const email = document.getElementById("email").value;
+        const password = document.getElementById("password").value;
+        const remember = document.getElementById("remember").checked;
+        const message = document.getElementById("message");
+
+        if(email === "" || password === ""){
+            message.style.color = "red";
+            message.textContent = "Please fill all fields";
+            return;
+        }
+
+        if(password.length < 8){
+            message.style.color = "red";
+            message.textContent = "Password must be at least 8 characters";
+            return;
+        }
+
+        if(remember){
+            localStorage.setItem("email", email);
+        }else{
+            localStorage.removeItem("email");
+        }
+
+        message.style.color = "green";
+        message.textContent = "Login Successful ✅";
+    }
+
+</script>
+
 </body>
 </html>
 
